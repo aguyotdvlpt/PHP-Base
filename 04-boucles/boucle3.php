@@ -1,26 +1,22 @@
 <?php
 
-/* $min = 20;
-$max = 50;
-$resultat = $max - $min;
+$nombre1 = 845;
+$nombre2 = 312;
+$reste = null;
+$resultat = null;
 
-while ($resultat !== 0) {
-    $resultat - $min = $resultat;
-    
+while ($nombre1 % $nombre2 !== 0) {
+    $nombre1 % $nombre2 = $reste;
+    $nombre1 = $nombre2;
+    $nombre2 = $reste;
 }
- echo $resultat;
- */
 
-$a = 120;
-$b = 45;
 
-while ($a != $b) {
-    if( $a > $b ){ 
-        $a = $a - $b; 
-    }
-    else if( $a < $b ) { 
-        $b = $b - $a; 
-    }
-echo $a;
 
+/* 845 % 312 = 221;
+312 % 221 = 91;
+221 % 91 = 39;
+91 % 39 = 13;
+39 % 13 = 0; */
+ 
 ?>
