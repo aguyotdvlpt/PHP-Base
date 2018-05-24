@@ -22,9 +22,9 @@ for ($k=0; $k<10; $k++) {
        echo $ligne . "<br />";
 } */
 
-for ($y=0; $y<11; $y++) {
-    
-    for($x=0; $x<$y; $x++){
+for ($y=0; $y<11; $y++) {           //Affiche chaque ligne
+      
+    for($x=0; $x<$y; $x++){         // Affiche chaque colonne
         echo "*";
     }
     echo "<br />";
