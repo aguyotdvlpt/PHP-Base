@@ -3,7 +3,9 @@
 $people = [
     'Jean',
     'Eric',
-    'Jeanne'
+    'Jeanne',
+    'John',
+    'Quelqu\'un'
 ];
 
 echo $people; // Ne fonctionne pas 'on ne peut pas afficher un tableau directement
@@ -16,6 +18,20 @@ echo '</pre>';
 var_dump($people); // Débug du tableau
 
 echo $people[1]; // Affiche Eric
+
+echo '<br />';
+//Afficher tous les prénom du tableau
+foreach($people as $person) {
+    var_dump($person);
+}
+echo '<br />';
+//Affihcer les prénoms et les index du tableau
+foreach($people as $index => $person) {
+    echo $index . ' : ' . $person . '<br/>';
+}
+
+
+
 
 // Si un index est déclaré, les éléments suivants vont être incrémentés par rapport à cet index
 $people = [
@@ -30,28 +46,45 @@ var_dump($people);
 $people = [
     [
    		'nom' => 'Guyot' ,
-		'prénom' => 'Alex',
+		'prenom' => 'Alex',
 		'age' => 36,
-		'telephone' => [
+		'telephones' => [
             'portable' => '0612542141',
             'fixe' => '0321021021'
         ],
     ],
 
     [
-        'nom' => 'Guyot' ,
-     'prénom' => 'Alex',
-     'age' => 36,
-     'telephone' => [
-         'portable' => '0612542141',
-         'fixe' => '0321021021'
+        'nom' => 'Robert' ,
+     'prenom' => 'Michel',
+     'age' => 94,
+     'telephones' => [
+         'portable' => '0612652141',
+         'fixe' => '0352145784'
      ],
  ],
-
-
 ];
 
 var_dump($people);
 
+/*  Ecrire la boucle foreach qui affiche le texte ci-dessous :
+    Alexandre a 36 ans et est joignable au 0612542141
+    Michel a [...]
+*/
+
+foreach ($people as $person) {
+    echo $person['prenom'] . ' a ' . $person['age'] . ' ans et est joignable au ';
+  //  echo $person['telephones']['portable'] . ', ' . $person['telephones']['fixe'] . '<br .>';
+        foreach ($person['telephones'] as $type => $phone) {
+            echo $type . ' : ' . $phone . ', ';
+        }
+    echo '<br/>';
+}
 
 ?>
+
+
+
+
+
+
