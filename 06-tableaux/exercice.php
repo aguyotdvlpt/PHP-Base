@@ -54,7 +54,8 @@ echo "Réponse 1 : <br/><br/>";
        /*  echo $nombreNotes . '<br/>';
  */
         $moyenne = $totalNotes / $nombreNotes;
-        echo 'Jean a ' . $moyenne . " de moyenne";
+        $moyenne = round($moyenne, 2);
+        echo 'Jean a ' . $moyenne . " / 20 de moyenne";
 
         echo '<br/><br/>';   
     
@@ -103,7 +104,7 @@ echo "Réponse 3 : <br/><br/>";
         foreach ($eleve['notes'] as $notes => $note) {
             
            if ($note == $notemax) {
-              echo $eleve['nom'] . ' a la meilleure note : ' . $notemax . '<br/>';
+              echo $eleve['nom'] . ' a la meilleure note : ' . $notemax . ' / 20 <br/>';
            }                  
         }    
     }
@@ -114,12 +115,14 @@ echo "Réponse 3 : <br/><br/>";
 
     echo "Réponse 5 : <br/><br/>";
 
+        $notemini = 19;
+
         foreach($eleves as $eleve) {
             
             foreach ($eleve['notes'] as $notes => $note) {
                 
-            if ($note >= 18) {
-                echo $eleve['nom'] . ' a la note minimale de 18 ' . '(' . $note . ')' . '<br/>';
+            if ($note >= $notemini) {
+                echo $eleve['nom'] . ' a la note minimale de ' . $notemini . ' / 20 (' . $note . ' / 20)' . '<br/>';
             }                  
             }    
         }
