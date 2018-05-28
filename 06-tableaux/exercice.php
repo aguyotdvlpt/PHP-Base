@@ -130,5 +130,23 @@ echo "Réponse 3 : <br/><br/>";
 echo '<br/>'; 
 echo '<br/>'; 
 
+/* Bonus : tri à bulles*/
 
+$notes = [4, 25, 1, 36, 24];
+$i = 0;
+$count = count($notes) - 1;
+var_dump($notes);
+
+    while ($i < $count) { // On parcourt tout le tableau
+        if ($notes[$i] > $notes[$i + 1]) {  //Si la valueur suivante est supérieure à la valeur actuelle
+            $tmp = $notes[$i]; // On stocke le 4
+            $notes[$i] = $notes[$i + 1]; // On met le 25 à la place du 4
+            $notes[$i + 1] = $tmp; // On met le 4 à la place du 25
+            $i = 0;
+        } else {
+            $i++; // On incrémente le compteur seulement s'il n'y a pas d'échanges
+        }
+    }
+
+    var_dump($notes);
 ?>
