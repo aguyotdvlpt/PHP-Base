@@ -48,12 +48,12 @@
     echo '<p> Le résultat de ' . $number1 . ' + ' . $number2 . ' est ' . $result . '</p>;
 } */
 
-
+/* 
     $number1 = $_POST['number1'];
     $number2 = $_POST['number2'];
     $operator = $_POST['operator'];
 
-/* if (!empty($POST)) { */
+/* if (!empty($POST)) { 
     if ($operator == "+") {
 
         $result = $number1 + $number2;
@@ -77,10 +77,11 @@
         $result = $number1 / $number2;
         echo '<p> Le résultat de ' . $number1 . " / " . $number2 . ' est ' . $result . '</p>';
     }
-/* } */
+ } 
+ */
 
-    ******************** CORRECTION ********************
-/* 
+
+ //   ******************** CORRECTION ********************
 if(!empty($_POST)) {
 
     $number1 = $_POST['number1'];
@@ -88,23 +89,35 @@ if(!empty($_POST)) {
     $operator = $_POST['operator'];
     $result = 0;
 
-    switch ($operator) {
-        case '+':
-            $result = $number1 + $number2;
-            break;
+    // Si nombre1 ou nombre2 ne sont pas des nombres valides
+        if (!is_numeric($nombre1) || !is_numeric($nombre2)) {
+            echo 'Les nombres saisis ne sont pas valides';
+            exit(); // On arrête le script
+        }
 
-            case '-':
-            $result = $number1 - $number2;
-            break;
+        //Si le nombre 2 est égal à 0, on ne peut faire le calcul
+        if ($nombre2 == 0 && $operator == "/") {
+            echo 'Attention, division par zéro';
+            exit();
+        }
 
-            case '*':
-            $result = $number1 * $number2;
-            break;
-            
-            case '/':
-            $result = $number1 / $number2;
-            break;
-    }
-    echo $result;
+        switch ($operator) {
+            case '+':
+                $result = $number1 + $number2;
+                break;
+
+                case '-':
+                $result = $number1 - $number2;
+                break;
+
+                case '*':
+                $result = $number1 * $number2;
+                break;
+                
+                case '/':
+                $result = $number1 / $number2;
+                break;
+        }
+        echo $result;
+    
 }
- */
