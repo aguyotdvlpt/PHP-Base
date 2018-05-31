@@ -43,7 +43,10 @@ require(__DIR__.'/../config/database.php');
           </li>
           <li class="nav-item">
             <a class="nav-link" href="beer_list.php">Bières</a>
-          </li>          
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="beer_add.php">Ajouter une bière</a>
+          </li>            
         </ul>
        </div>
     </nav>

@@ -8,5 +8,5 @@ INSERT INTO beer(`name`, degree, volum, image, price, ebc_id, brand_id) VALUES
 ('Chimay Blanche', 8, 330, 'img/chimay-chimay-blanche.jpg', 1.65, 1, 1),
 ('Duvel', 8.5, 330, 'img/duvel-duvel.jpg', 1.99, 1, 2),
 ('Duvel Triple hop', 9.5, 330, 'img/duvel-duvel-triple-hop.jpg', 1.95, 1, 2),
-('Ch''ti Blonde', 6.4, 250, 'img/chti-chti-blonde', 1.84, 1, 5),
+('Ch''ti Blonde', 6.4, 250, 'img/chti-chti-blonde.jpg', 1.84, 1, 5),
 ('Ch''ti Ambré', 5.9, 330, 'img/chti-chti-ambree.jpg', 1.46, 3, 5);

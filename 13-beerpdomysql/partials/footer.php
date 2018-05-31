@@ -1,6 +1,6 @@
-<footer class="footer">
+<footer class="footer fixed-bottom">
       <div class="container">
-        <span class="text-muted">Place sticky footer content here.</span>
+        <span class="text-muted">L'abus d'alcool est dangereux pour la santé, à consommer avec modération</span>
       </div>
     </footer>
 
