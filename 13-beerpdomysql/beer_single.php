@@ -11,7 +11,7 @@ $id = $_GET['id'];
 //$query = $db->query('SELECT * FROM beer WHERE id = '.$id);
 
 // Une requête préparée permet de se prémunir des injections SQL
-$query = $db->prepare('SELECT * FROM beer WHERE id = :id'); // :id est un paramètre
+$query = $db->prepare('SELECT * FROM beer WHERE id = :id'); // :id est un paramètre que l'on choisit
 $query->bindvalue(':id', $id, PDO::PARAM_INT); // On s'assure que l'id est bien un entier
 $query -> execute(); // Execute la requête
 // var_dump($query);
@@ -45,11 +45,28 @@ $ebc = $query->fetch();
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">Nom : <?php echo $beer['name']; ?> </li>
                 <li class="list-group-item">Degrés : <?php echo $beer['degree']; ?>°</li>
-                <li class="list-group-item">Volume : <?php echo $beer['volum']; ?> mL</li>
+                <li class="list-group-item">Volume : <?php echo $beer['volum'] / 10; ?> cL</li>
                 <li class="list-group-item"> Prix : <?php echo $beer['price']; ?> € </li>
                 <li class="list-group-item"> Marque : <?php echo $brand['name']; ?> </li>
                 <li class="list-group-item" >
-                    Type : <?php echo $ebc['code']; ?>
+                    <?php 
+                    $type = null;
+                    switch ($ebc['code']) {
+                        case 4:
+                            $type = 'Blonde';
+                        break;
+                        case 26:
+                            $type = 'Brune';
+                        break;
+                        case 39:
+                            $type = 'Ambré';
+                        break;
+                        case 57:
+                            $type = 'Noire';
+                        break;
+                    }
+                    ?>
+                    Type : <?php echo $type; ?>
                     <span class="ml-3 d-inline-block" style="background-color: #<?php echo $ebc['color']; ?>; width: 50px; height:25px"</span>
                 </li>
             </ul>

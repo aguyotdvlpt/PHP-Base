@@ -21,9 +21,9 @@ $beers = $query->fetchAll();
                 // On affiche la liste des bières
                 foreach($beers as $beer) { ?>
                     <div class="col-md-3 mt-4">
-                        <div class="card mb-4">
-                            <?php echo '<img class="card-img-top" src="'.$beer['image'].'"/>' ?>
-                                <div class="card-body d-block text-center">
+                        <div class="card mb-4 box-shadow">
+                            <?php echo '<img class="beer-img card-img-top" src="'.$beer['image'].'"/>' ?>
+                                <div class="card-body d-block text-center font-weight-bold">
                                     <?php echo $beer['name']; ?>
                                     <!-- <button type="button" class="d-block btn btn-primary mt-3 mx-auto">-->
                                     <a href="./beer_single.php?id=<?php echo $beer['id']?>" class="btn btn-primary mt-3 mx-auto btn-block w-75">Voir la bière</a>
