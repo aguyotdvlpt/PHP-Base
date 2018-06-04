@@ -288,7 +288,7 @@ require('partials/header.php');
                 $brand = slugify($brand ['name']);
                 $name = slugify($name);
 
-                $filename = $brand . '-' . $name . '.' .$extension;
+                $filename = $brand[] . '-' . $name . '.' .$extension;
 
 
                     echo '<div class="alert alert-success">La bière a bien été ajouté.</div>';
@@ -298,7 +298,7 @@ require('partials/header.php');
             //var_dump($_POST);
 
             //Débug de l'upload
-            var_dump($filename);
+            var_dump($_FILES);
             
 
 /* if(isset($_POST['nom'])) {
