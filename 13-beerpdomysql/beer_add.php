@@ -1,81 +1,6 @@
-<?php
-
-require('partials/header.php');
-
-?>
+<?php require('partials/header.php');?>
 
 
-<!-- <div class="container">
-    <form method="post" action="">
-        <p>
-            <label for="name">Nom :</label>
-            <input type="text" name="nom" placeholder="Nom de la bière"/>
-        </p>
-
-        <p>
-            <label for="degree">Nombre de degrés :</label>
-            <input type="text" name="degree" />
-              
-        </p>
-
-        <p>
-            <label for="volume">Conditionnement :</label>
-                <select id="volume" name="volume">
-                    <option value="25">25 cL</option> 
-                    <option value="33" selected>33 cL</option>
-                    <option value="75">75 cL</option>
-                </select>
-        </p>
-
-        <p>
-            <label for="price">Prix :</label>
-                <input type="text" name="price" size="10" maxlength="5"/>
-        </p>
-
-        <p>
-            // <label for="brand">Marque :</label>
-            <select id="brand" name="brand">
-                    <option value="chimay">Chimay</option> 
-                    <option value="chti">Ch'ti</option>
-                    <option value="duvel">Duvel</option>
-            </select> //
-
-            <label for="brand">Marques :</label>
-            <input list="marques" id="brand" name="brand"/>
-                <datalist id="marques">
-                    <option value="Chimay">
-                    <option value="Ch'ti">
-                    <option value="Chimay">
-                    <option value="Guinness">
-                    <option value="Kwak">
-                </datalist>
-           
-        </p>
-
-        <p>
-        <label for="type">Type :</label>
-            <select id="type" name="type">
-                    <option value="4">Blonde</option>
-                    <option value="26">Ambrée</option>
-                    <option value="39">Brune</option>
-                    <option value="57">Noire</option>
-            </select>
-
-        
-        </p>
-
-        <input class="btn btn-primary mb-5" type="submit" value="Enregistrer votre bière">
-            
-    </form>
-</div> -->
-
- <!-- ****************** CREATION DE LA FONCTION SLUGIFY *********************** -->
-
-<?php
-        
-
-
-?>
 
 <div class="container pt-5">
     <h2>Ajouter une bière</h2>
@@ -88,7 +13,10 @@ require('partials/header.php');
     $volum = null;
     $brand = null;
     $type = null;
+    $image = null;
     
+    //<!-- ****************** CREATION DE LA FONCTION SLUGIFY *********************** -->
+
     function slugify($str) {
         //Supprimer les espaces avant et après
         $str = trim($str);
@@ -116,11 +44,7 @@ require('partials/header.php');
 
     return $str;
     }
-    // Test de la fonction
-    /* $marque = " Ch'ti ambrée ";
-    $marque = slugify($marque);
-    echo $marque; */
-
+ 
     if(!empty($_POST)) {
             $name = $_POST['name']; // Doit faire au moins 3 caractères 
             $degree = $_POST['degree']; // Doit faire entre 0 et 20
@@ -133,7 +57,9 @@ require('partials/header.php');
                 $$key = $field (On variabilise une variable = interpolation de variables)
             } */
         }
-    
+    if (!empty($_FILES['image']['tmp_name'])) { //Si un fichier a été uploadé
+        $image = $_FILES['image'];
+    }
     ?>
 
     <form method="POST" enctype="multipart/form-data" action="">
@@ -194,7 +120,6 @@ require('partials/header.php');
     </div>
 <?php
         //Détecter quand le formulaire est soumis
-        
         // Définir un tableau d'erreur vide qui va se remplir pour chaque erreur
         $errors = [];
             // $name doit comporter au moins 3 caractères
@@ -214,7 +139,6 @@ require('partials/header.php');
         if (!in_array($volum, [250, 330,750])) {
             $errors['volum'] = 'Le volume n\'est pas valide';
         };
-
             //Vérifier que la marque existe dans la base de données
 
             $brand_id = intval(substr($brand, -1)); // Le intval() permet de s'assurer que le dernier caractère soit un chiffre sinon il retourne 0.
@@ -240,20 +164,34 @@ require('partials/header.php');
     if (!$type) { 
         $errors['type'] = 'Le type n\'existe pas';
     }
+        // Vérification de l'imgae :
+
+            // Erreur si pas d'image uploadée
+    if ($image === null) {
+        $errors['image'] = "Aucune image n'a été selectionnée";
+    }
+
+            // Erreur si l'image uploasée n'a pas le bon mimetype (Utilsation de finfo_file)
+            
+    if ($image) {
+        $file = $image['tmp_name'];                 //L'emplacement temporaire du fichier uploadé
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);     // Permet d'ouvrir un fichier
+        $mimeType = finfo_file($finfo, $file);                  // Ouvre le fichier
+        $allowedExtensions = ['image/jpg', 'image/jpeg', 'image/gif', 'image/png']; // Dans cette variable je définis tous les types de fichiers que l'on peut uploader
+
+            // Si l'extension n'est pas autorisée, il y a une erreur
+            if (!in_array($mimeType, $allowedExtensions)) {
+                $errors['image'] = "Le format de l'image sélectionné n'est pas autorisé.";
+            }
+
+            // Si la taille de l'image est trop élevée 
+            if ($image['size']> '2097152') {
+                $errors['image'] = "La taille du fichier excède la limite de 2Mo";
+            }
+    }
+    
+
         
-       /*  $query = $db->prepare('SELECT * FROM beer WHERE id = :nom'); // :name est un paramètre que l'on choisit
-        $query->bindvalue(':nom', $brand, PDO::PARAM_STR); // On s'assure que l'id est bien un entier
-        $query -> execute(); // Execute la requête
-
-        $brands = $query->fetch();
-        var_dump($brands);
-
-        $query = $db->prepare('SELECT * FROM beer WHERE id = :nom'); // :name est un paramètre que l'on choisit
-        $query->bindvalue(':nom', $type, PDO::PARAM_STR); // On s'assure que l'id est bien un entier
-        $query -> execute(); // Execute la requête
-
-        $type1 = $query->fetch();
-        var_dump($type1); */
        
 
         var_dump($errors);
@@ -288,7 +226,16 @@ require('partials/header.php');
                 $brand = slugify($brand ['name']);
                 $name = slugify($name);
 
-                $filename = $brand[] . '-' . $name . '.' .$extension;
+                $filename = $brand . '-' . $name . '.' .$extension;
+
+                //Déplacer le fichier dans le dossier img
+                move_uploaded_file($file, __DIR__.'/img/'.$filename);
+
+                //Requête pour mettre à jour la bière en BDD afin d'associer l'image
+                $query = $db->prepare('UPDATE beer SET `image` = :image WHERE id = :id');
+                $query->bindValue(':image', 'img/'.$filename, PDO::PARAM_STR);
+                $query->bindValue(':id', $db->lastInsertId(), PDO::PARAM_INT); //On récupère l'id de la dernière bière ajoutée
+                $query->execute();
 
 
                     echo '<div class="alert alert-success">La bière a bien été ajouté.</div>';
@@ -300,43 +247,6 @@ require('partials/header.php');
             //Débug de l'upload
             var_dump($_FILES);
             
-
-/* if(isset($_POST['nom'])) {
-    $name = $_POST['nom'];
-}
-if(isset($_POST['degree'])) {
-    $degree = $_POST['degree'];
-}
-if(isset($_POST['volume'])) {
-    $volume = $_POST['volume'];
-}
-if(isset($_POST['price'])) {
-    $price = $_POST['price'];
-}
-if(isset($_POST['brand'])) {
-    $brand = $_POST['brand'];
-}
-if(isset($_POST['type'])) {
-    $type = $_POST['type'];
-}
-$degree = $_POST['degree'];
-$volume = $_POST['volume'];
-$price = $_POST['price'];
-$brand = $_POST['brand'];
-$type = $_POST['type'];
-
-var_dump($name);
-var_dump($degree);
-var_dump($volume);
-var_dump($price);
-var_dump($brand);
-var_dump($type); */
-
-
-
-
-
-
 
 
 
