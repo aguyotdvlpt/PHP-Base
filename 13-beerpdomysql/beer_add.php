@@ -69,6 +69,14 @@ require('partials/header.php');
     </form>
 </div> -->
 
+ <!-- ****************** CREATION DE LA FONCTION SLUGIFY *********************** -->
+
+<?php
+        
+
+
+?>
+
 <div class="container pt-5">
     <h2>Ajouter une bière</h2>
     
@@ -81,6 +89,37 @@ require('partials/header.php');
     $brand = null;
     $type = null;
     
+    function slugify($str) {
+        //Supprimer les espaces avant et après
+        $str = trim($str);
+        //Mets en minusucule
+        $str = strtolower($str);
+        // Remplace les caractères spéciaux
+        $str = str_replace("é", "e", $str);
+        $str = str_replace("ë", "e", $str);
+        $str = str_replace("ê", "e", $str);
+        $str = str_replace("è", "e", $str);
+        $str = str_replace("à", "a", $str);
+        $str = str_replace("â", "a", $str);
+        $str = str_replace("î", "i", $str);
+        $str = str_replace("ï", "i", $str);
+        $str = str_replace("ï", "i", $str);
+        $str = str_replace("ö", "o", $str);
+        $str = str_replace("ô", "o", $str);
+        $str = str_replace("û", "u", $str);
+        $str = str_replace("ü", "u", $str);
+        $str = str_replace("ù", "u", $str);
+        //Enlève les apostrophes
+        $str = str_replace("'","", $str);
+        //Remplace les espaces par des "-"
+        $str = str_replace(" ", "-", $str);          
+
+    return $str;
+    }
+    // Test de la fonction
+    /* $marque = " Ch'ti ambrée ";
+    $marque = slugify($marque);
+    echo $marque; */
 
     if(!empty($_POST)) {
             $name = $_POST['name']; // Doit faire au moins 3 caractères 
@@ -97,7 +136,7 @@ require('partials/header.php');
     
     ?>
 
-    <form method="POST" action="">
+    <form method="POST" enctype="multipart/form-data" action="">
         <?php
         $fields = ['name' => 'Nom', 'degree' => 'Degrés', 'price' => 'Prix']; // Les champs du formulaire à afficher 
         foreach ($fields as $field => $label) { ?>
@@ -142,6 +181,12 @@ require('partials/header.php');
                         <option value="Noire - 4"></option>                        
                     </select>
                 </datalist>                        
+            </div>
+
+            <div class="form-group">
+                <label for"image"> Image : </label>
+                <input type="file" name="image" />     
+                
             </div>
 
             <input class="btn btn-primary mb-5" type="submit" value="Enregistrer votre bière">
@@ -221,17 +266,40 @@ require('partials/header.php');
                 $query -> bindValue(':name', $name, PDO::PARAM_STR);
                 $query -> bindValue(':degree', $degree, PDO::PARAM_STR);
                 $query -> bindValue(':volum', $volum, PDO::PARAM_INT);
-                $query -> bindValue(':image', 'img/chimay-chimay-rouge.jpg', PDO::PARAM_STR);
+                $query -> bindValue(':image', null, PDO::PARAM_STR);
                 $query -> bindValue(':price', $price, PDO::PARAM_STR);
                 $query -> bindValue(':EBC_id', $type_id, PDO::PARAM_INT);
                 $query -> bindValue(':brand_id', $brand_id, PDO::PARAM_INT);
 
                 if ($query -> execute()); // On insère la bière dans la BDD
+
+                // Traitement de l'upload de l'image
+                //Récupère l'emplacement temporaire du fichier
+                    $file = $_FILES['image']['tmp_name'];
+
+                // Récupérer l'extension du fichier
+                        $originalName = $_FILES['image']['name'];
+                        $extension = pathinfo($originalName)['extension']; //Retourne jpg
+
+                // Générer le nom de l'image
+                // Ch'ti -> chti
+                // Ch'ti Ambrée -> chti-ambree
+
+                $brand = slugify($brand ['name']);
+                $name = slugify($name);
+
+                $filename = $brand[] . '-' . $name . '.' .$extension;
+
+
                     echo '<div class="alert alert-success">La bière a bien été ajouté.</div>';
             }
             
-            //Vérifier les champs
-            var_dump($_POST); 
+            //Débug du formulaire
+            //var_dump($_POST);
+
+            //Débug de l'upload
+            var_dump($_FILES);
+            
 
 /* if(isset($_POST['nom'])) {
     $name = $_POST['nom'];
@@ -263,6 +331,15 @@ var_dump($volume);
 var_dump($price);
 var_dump($brand);
 var_dump($type); */
+
+
+
+
+
+
+
+
+
 
 // Inclure le fichier partials/footer.php
 require(__DIR__.'/partials/footer.php');
