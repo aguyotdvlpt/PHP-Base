@@ -34,9 +34,22 @@ require(__DIR__.'/../config/database.php');
           <div class="container">
             <img class="logo mr-3" src="./img/logo.png" />
             <a class="navbar-brand" href="#">Beer PDO</a>
+
+      <!-- Formulaire de recherche -->
+   
+       
+      <form class="form-inline my-2 mx-auto" method="GET" action="search.php">
+        <label class="sr-only" for="search">Search</label>
+        <input type="search" class="form-control mb-2 mr-sm-2 mx-5" name="q" id="search" placeholder="Recherche">
+        <button type="submit" class="btn btn-warning mb-2 mx-auto">Rechercher !</button>
+      </form>
+      
+      <!-- Fin du Formulaire de recherche -->
+
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
+        
         <div class="collapse navbar-collapse" id="navbarCollapse">
           <?php
           $page = basename($_SERVER['REQUEST_URI'], '.php'); ?>
