@@ -35,52 +35,50 @@
             $errors['address'] = 'L\'adresse n\'est pas valide';
         };
             
-        if (strlen($city) < 3) {  {
+        if (strlen($city) < 3) {
             $errors['city'] = 'La ville n\'est pas valide';
         };
             
-        if (strlen($zip) <= 1 ||  (strlen($city) >= 5)) {
+        if (strlen($zip) < 1 ||  (strlen($zip) > 5)) {
             $errors['zip'] = 'Le code postal n\'est pas valide';
         };
-            //Vérifier que la marque existe dans la base de données
-                       //Requête pour aller chercher
-                $query = $db ->prepare('SELECT * FROM brewery WHERE id = :id');
-                $query -> bindvalue(':id', $country, PDO::PARAM_INT);
-                $query -> execute();
-                $country = $query -> fetch();
+            
+        $allowedCountries = ['France', 'Belgique', 'Royaume-Uni', 'Irlande', 'Allemagne', 'Italie' ];
+            if (!in_array($country, $allowedCountries)) { // Si le pays n'est pas présent dans le tableau des pays autorisées
+                $errors['country'] = 'Le nom du pays n\'est pas valide';
+            }
 
-        if (!$country) { // Si brand ne renvoie pas true => Si brand renvoie false (Si la marque n'existe pas en BDD)
-            $errors['country'] = 'Le pays n\'existe pas dans la base de données';
-        }
+            //Quand le formulaire est valide, on ajoute dans la Base de Données
+            if(empty($errors)) {
+                $query = $db->prepare('INSERT INTO 
+                brewery (`name`, `address`, city, zip, country) VALUES
+                (:name, :address, :city, :zip, :country)');
+                $result = $query->execute([
+                    ':name' => $name,
+                    ':address' => $address,
+                    ':city' => $city,
+                    ':zip' => $zip,
+                    ':country' => $country,
+                ]); // Raccourci du bindvalue mais ne fonctionne que pour les chaines
 
-           }
-        //var_dump($errors);
-            // s'il n'y a pas d'erreurs dans le formulaire
-            if (empty($errors)) {
-                $query = $db -> prepare('
-                    INSERT INTO brewery (`name`, address, city, zip, country)
-                    VALUES (:name, :address, :city, :zip, :country)
-                ');
-                $query -> bindValue(':name', $name, PDO::PARAM_STR);
-                $query -> bindValue(':address', $address, PDO::PARAM_STR);
-                $query -> bindValue(':city', $city, PDO::PARAM_STR);
-                $query -> bindValue(':zip', $zip, PDO::PARAM_STR);
-                $query -> bindValue(':country', $country, PDO::PARAM_STR);
-                
-                if ($query -> execute()); // On insère la bière dans la BDD
-    
-                    echo '<div class="alert alert-success">La brasserie a bien été ajoutée.</div>';
-            } else {
-                foreach($errors as $error) {
-                    if (!empty($error)) {
-
-                        ?>
-                        <div class='' style='color:red '>
-                            <?php echo $error . '<br/>';?>
-                        </div>
-<?php                    }
+                if ($result) {  //On s'assure que la requête s'est bien déroulée
+                echo '<div class="alert alert-success">
+                        La brasserie a été ajoutée.
+                        </div>';
                 }
             }
+
+            //Quand le formulaire n\'est pas valide
+
+        if (!empty($errors)) {
+            echo '<div class="alert alert-danger">';
+            foreach($errors as $error) {
+                echo '<p>' . $error . '</p>';
+            }
+            echo '</div>';
+            var_dump($errors);
+        }
+    
 ?>
 
 
@@ -98,18 +96,15 @@
             <div class="form-group">
                 <label for="country">Pays :</label>
                 <select class="form-control" id="country" name="country">
-                        <option value="France">France</option>
-                        <option value="Belgique">Belgique</option>
-                        <option value="Royaume-uni">Royaume-Uni</option>
-                        <option value="Irlande">Irlande</option>
-                        <option value="Allemagne">Allemagne</option>
-                        <option value="Italie">Italie</option>
+                        <option >France</option>
+                        <option>Belgique</option>
+                        <option>Royaume-Uni</option>
+                        <option>Irlande</option>
+                        <option>Allemagne</option>
+                        <option>Italie</option>
                 </select>
             </div>
-
-            
-
-            <input class="btn btn-primary mb-5" type="submit" value="Enregistrer votre brasserie">
+                <button class="btn btn-primary">Ajouter</button>
         </form>
     </div>
 <?php

@@ -39,7 +39,7 @@ $brands = $query->fetchAll();
                 echo '<td>' . $brand['zip'] . '</td>';
                 echo '<td>' . $brand['country'] . '</td>';
                 ?>
-                <td><a href="./brewery_single.php?id=<?php echo $brand['id']?>" class="btn btn-primary mx-auto btn-block w-75">Plus d'informations</a></td>
+                <td><a href="./brewery_single.php?id=<?php echo $brand['id']?>" class="btn btn-info mx-auto btn-block w-75">Plus d'informations</a></td>
     
                 </tr>
     <?php } ?>
