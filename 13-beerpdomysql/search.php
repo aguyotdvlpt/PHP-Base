@@ -4,6 +4,7 @@
 if (!isset($_GET['q']) || empty($_GET['q'])) {
     //Redirection vers la liste des bières
     header('Location: beer_list.php');
+    exit(); // Pour être sûr d'arrêter le script
 }
 
 // Inclure le fichier config/database.php
@@ -49,4 +50,8 @@ $Q = ucfirst($q); //Fonction toUppercase en php
 ?> </div>
 
 <?php
+// Inclure le fichier s'occupant des logs
+require('utils/logs.php');
+
+
 require(__DIR__.'/partials/footer.php');

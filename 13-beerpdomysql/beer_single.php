@@ -16,11 +16,13 @@ $query->bindvalue(':id', $id, PDO::PARAM_INT); // On s'assure que l'id est bien 
 $query -> execute(); // Execute la requête
 // var_dump($query);
 $beer = $query->fetch();
+$countSQL++; // Incrémente le nombre de requêtes
 // var_dump($beer);
  
 // Récupérer la marque de la bière
 $query = $db->query('SELECT * FROM brand WHERE id = '.$beer['Brand_id']);
 $brand = $query->fetch();
+$countSQL++;
 
 // Récupérer l\'ECB de la bière
 
@@ -29,6 +31,7 @@ $query->bindvalue(':id', $beer["EBC_id"], PDO::PARAM_INT); // On s'assure que l'
 $query -> execute(); // Execute la requête
 // var_dump($query);
 $ebc = $query->fetch();
+$countSQL++;
 
 
 ?>

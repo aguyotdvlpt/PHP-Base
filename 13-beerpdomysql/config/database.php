@@ -14,6 +14,10 @@ $db = new PDO('mysql:host='.HOST.';dbname='.DB.';charset=utf8', USER, PASS , [
     PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING, //Active les erreurs SQL
 ]);
 
+    // Permettra de compter le nombre de requêtes faites sur la page
+
+    $countSQL = 0;
+
 } catch (Exception $e) {
     echo $e->getMessage(); // On récupère le message de l'exception
     echo '<img src="img/confused-travolta-50.gif" />';

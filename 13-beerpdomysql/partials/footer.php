@@ -1,6 +1,6 @@
 <footer class="footer fixed-bottom">
       <div class="container">
-        <span class="text-muted">L'abus d'alcool est dangereux pour la santé, à consommer avec modération</span>
+        <p>Nombre de requêtes : <?php echo $countSQL ?></p>
       </div>
     </footer>
 
