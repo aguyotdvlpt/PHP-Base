@@ -42,7 +42,7 @@ $brands = $query->fetchAll();
                 <td>
                   <a href="./brewery_single.php?id=<?php echo $brand['id']?>" class="btn btn-info">+ d'infos</a>
                   <?php if(userIsLogged()) { ?>
-                  <a href="./brewery_single.php?id=<?php echo $brand['id']?>" class="btn btn-warning">Modifier</a>
+                  <a href="./brewery_edit.php?id=<?php echo $brand['id']?>" class="btn btn-warning">Modifier</a>
                   <a href="./brewery_delete.php?id=<?php echo $brand['id']?>" class="btn btn-danger confirm-delete">Supprimer</a>
                   <?php } ?>
                   </td>
@@ -55,7 +55,6 @@ $brands = $query->fetchAll();
 </div>
 
 <?php
-
 
 // Inclure le fichier partials/footer.php
 

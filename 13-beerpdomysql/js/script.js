@@ -18,8 +18,7 @@ $(function() {
             if(hasConfirm) { // Il veut supprimer la brasserie
                 // $(button).click(); // On clique sur le vrai bouton pour supprimer
                 
-                window.location = $(button).attr('href');
-                               
+                window.location = $(button).attr('href');                               
             }
         });
     });
