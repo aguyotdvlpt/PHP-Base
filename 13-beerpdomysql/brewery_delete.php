@@ -14,8 +14,10 @@ if (!userIsLogged()) {
 // Redirection en HTML
 
 // Attention au CSRF token
-echo '<meta http-equiv="refresh" content="2; url=brewery_list.php">';
+//echo '<meta http-equiv="refresh" content="2; url=brewery_list.php">';
 
 $query = $db -> prepare('DELETE FROM brewery WHERE id= :id');
 $query->bindValue(':id', $_GET['id'], PDO:: PARAM_INT);
-$query -> execute(); // On supprime la bière dans la BDD
+if ($query -> execute()) {
+    header('Location: brewery_list.php');
+} 
