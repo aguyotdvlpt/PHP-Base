@@ -15,35 +15,7 @@
     $type = null;
     $image = null;
     
-    //<!-- ****************** CREATION DE LA FONCTION SLUGIFY *********************** -->
-
-    function slugify($str) {
-        //Supprimer les espaces avant et après
-        $str = trim($str);
-        //Mets en minusucule
-        $str = strtolower($str);
-        // Remplace les caractères spéciaux
-        $str = str_replace("é", "e", $str);
-        $str = str_replace("ë", "e", $str);
-        $str = str_replace("ê", "e", $str);
-        $str = str_replace("è", "e", $str);
-        $str = str_replace("à", "a", $str);
-        $str = str_replace("â", "a", $str);
-        $str = str_replace("î", "i", $str);
-        $str = str_replace("ï", "i", $str);
-        $str = str_replace("ï", "i", $str);
-        $str = str_replace("ö", "o", $str);
-        $str = str_replace("ô", "o", $str);
-        $str = str_replace("û", "u", $str);
-        $str = str_replace("ü", "u", $str);
-        $str = str_replace("ù", "u", $str);
-        //Enlève les apostrophes
-        $str = str_replace("'","", $str);
-        //Remplace les espaces par des "-"
-        $str = str_replace(" ", "-", $str);          
-
-    return $str;
-    }
+    
  
     if(!empty($_POST)) {
             $name = $_POST['name']; // Doit faire au moins 3 caractères 

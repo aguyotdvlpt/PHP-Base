@@ -1,7 +1,10 @@
 <?php 
+session_start();
 // Configuration de PDO pour la base de données
 // On utilise la notation en absolue pour se repérer
 require(__DIR__.'/../config/database.php');
+// Inclure le fichier avec toutes nos fonctions PHP
+require(__DIR__.'/../config/functions.php');
 ?>
 
 <html lang="en">
@@ -16,7 +19,6 @@ require(__DIR__.'/../config/database.php');
 
   <!-- Custom styles for this template -->
   <link href="sticky-footer-navbar.css" rel="stylesheet">
-
   <link  rel="stylesheet" href="css/style.css">
 </head>
 
@@ -53,32 +55,51 @@ require(__DIR__.'/../config/database.php');
         <div class="collapse navbar-collapse" id="navbarCollapse">
           <?php
           $page = basename($_SERVER['REQUEST_URI'], '.php'); ?>
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item <?php echo ($page =='index') ? 'active' : '' ?>">
-              <a class="nav-link" href="index.php">Accueil <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item dropdown <?php echo ($page =='beer_list' || $page == 'beer_add') ? 'active' : '' ?>">
-              <a class="nav-link dropdown-toggle" href='#' id='navbarDropdown' role='button' data-toggle='dropdown'>Bières</a>
-              <div class='dropdown-menu'>
-                <a class="dropdown-item" href="beer_list.php">Bières</a> 
-                <a class="dropdown-item" href="beer_add.php">Ajouter une bière</a>
-              </div>
-            </li>
-            <li class="nav-item dropdown <?php echo ($page == 'brewery_list' || 'brewery_add') ? 'active' : '' ?>">
-              <a class="nav-link dropdown-toggle" href='#' id='navbarDropdown' role='button' data-toggle='dropdown'>Brasseries</a>
-              <div class='dropdown-menu'>
-                <a class="dropdown-item" href="brewery_list.php">Brasseries</a>
-                <a class="dropdown-item" href="brewery_add.php">Ajouter une brasserie</a>
-              </div>
-            </li> 
-            <li class="nav-item <?php echo ($page =='register') ? 'active' : '' ?>">
-              <a class="nav-link" href="register.php">Inscription</a>
-            </li>
-            <li class="nav-item <?php echo ($page =='login') ? 'active' : '' ?>">
-              <a class="nav-link" href="login.php">Login</a>
-            </li>        
-          </ul>
+           <ul class="navbar-nav ml-auto">
+                    <li class="nav-item <?php echo ($page == 'index') ? 'active' : '' ?>">
+                        <a class="nav-link" href="index.php">Accueil</a>
+                    </li>
+                    <li class="nav-item dropdown <?php echo ($page == 'beer_list' || $page == 'beer_add') ? 'active' : '' ?>">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown">
+                            Bières
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="beer_list.php">Les Bières</a>
+                            <a class="dropdown-item" href="beer_add.php">Ajouter une bière</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown <?php echo ($page == 'brewery_list' || $page == 'brewery_add') ? 'active' : '' ?>">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown">
+                            Brasseries
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="brewery_list.php">Les Brasseries</a>
+                            <a class="dropdown-item" href="brewery_add.php">Ajouter une brasserie</a>
+
+            <!-- Si un utilisateur existe dans la session, on affiche son email et un lien vers logout.php pour se déconnecter
+                S'il n'y a pas d'utilisateur dans la session, on affiche les 2 liens pour s'inscrire et se connecter -->
+            <?php if (isset($_SESSION['user'])) {?>
+              <li class="navbar-text text-warning pl-3" >
+               <?php echo $_SESSION['user']['email'] ?>
+              </li>
+              <li class="nav-item <?php echo ($page =='logout') ? 'active' : '' ?>">
+                <a class="nav-link" href="logout.php">Se déconnecter</a>
+              </li>    
+
+            <?php } 
+            
+            else { ?>  
+
+              <li class="nav-item <?php echo ($page =='register') ? 'active' : '' ?>">
+                <a class="nav-link" href="register.php">Inscription</a>
+              </li>
+              <li class="nav-item <?php echo ($page =='login') ? 'active' : '' ?>">
+                <a class="nav-link" href="login.php">Login</a>
+              </li>
+            <?php } ?> 
+
+            </ul>
         </div>
-</div>
+    </div>
       </nav>
-     <?php //var_dump(basename($_SERVER['REQUEST_URI'], '.php')); ?>
+  

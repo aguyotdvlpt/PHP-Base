@@ -15,7 +15,7 @@ $brands = $query->fetchAll();
 
 <div class="container pt-5">
     <h1 class='text-center mb-5'>Liste des brasseries</h1>
-</div>
+
 <table class="table table-striped text-center">
 
   <thead>
@@ -39,26 +39,22 @@ $brands = $query->fetchAll();
                 echo '<td>' . $brand['zip'] . '</td>';
                 echo '<td>' . $brand['country'] . '</td>';
                 ?>
-                <td><a href="./brewery_single.php?id=<?php echo $brand['id']?>" class="btn btn-info mx-auto btn-block w-75">Plus d'informations</a></td>
-    
+                <td>
+                  <a href="./brewery_single.php?id=<?php echo $brand['id']?>" class="btn btn-info">+ d'infos</a>
+                  <?php if(userIsLogged()) { ?>
+                  <a href="./brewery_single.php?id=<?php echo $brand['id']?>" class="btn btn-warning">Modifier</a>
+                  <a href="./brewery_delete.php?id=<?php echo $brand['id']?>" class="btn btn-danger">Supprimer</a>
+                  <?php } ?>
+                  </td>
                 </tr>
-    <?php } ?>
-    
+    <?php } ?>    
     
   </tbody>
 </table>
 
+</div>
 
 <?php
-
-
-
-
-
-
-
-
-
 
 
 // Inclure le fichier partials/footer.php

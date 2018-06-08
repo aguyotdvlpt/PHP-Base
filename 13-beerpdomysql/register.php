@@ -1,4 +1,10 @@
-<?php require(__DIR__.'/partials/header.php'); ?>
+<?php require(__DIR__.'/partials/header.php');
+
+if (userIsLogged()) {
+    header('Location: index.php');
+}
+?>
+
 
 <div class="container pt-5">
     <h1>Inscription</h1>
@@ -32,14 +38,14 @@
 
         // Inscription de l'utilisateur
         if (empty($errors)) {
-            $query = $db->prepare('INSERT IN user
+            $query = $db->prepare('INSERT INTO user
             (login, email, password, created_at) VALUES
             (:login, :email, :password, NOW())');
             $query->bindValue('login', $login, PDO::PARAM_STR);
             $query->bindValue('email', $email, PDO::PARAM_STR);
             $query->bindValue('password', password_hash($password, PASSWORD_DEFAULT), PDO::PARAM_STR);
             if ($query->execute()) {
-                echo 'Vous êtes bien inscrits';
+                echo '<p class="success">Vous êtes bien inscrit</p>';
             }
         }  
     } 
